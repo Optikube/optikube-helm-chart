@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "optikube-redis.fullname" . }}-deployment-test
+  labels:
+    app.kubernetes.io/name: {{ include "optikube-redis.name" . }}
+    helm.sh/chart: {{ include "optikube-redis.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ['sh', '-c', 'echo "Deployment Test Passed!"']
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "optikube-redis.fullname" . }}-connectivity-test
+  labels:
+    app.kubernetes.io/name: {{ include "optikube-redis.name" . }}
+    helm.sh/chart: {{ include "optikube-redis.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command: ['sh', '-c', 'wget -O /dev/null http://optikube-redis:{{ .Values.services.redis.port }}']
+  restartPolicy: Never

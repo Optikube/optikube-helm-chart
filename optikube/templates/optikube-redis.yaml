@@ -1,0 +1,38 @@
+# Optikube Redis Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: optikube-redis
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: optikube-redis
+  template:
+    metadata:
+      labels:
+        app: optikube-redis
+    spec:
+      containers:
+      - name: redis
+        image: {{ .Values.images.redis.repository }}:{{ .Values.images.redis.tag }}
+        imagePullPolicy: {{ .Values.images.redis.pullPolicy }}
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: {{ .Values.resources.redis.requests.memory }}
+            cpu: {{ .Values.resources.redis.requests.cpu }}
+---
+# Optikube Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: optikube-redis
+  namespace: {{ .Values.namespace }}
+spec:
+  ports:
+  - port: {{ .Values.services.redis.port }}
+    targetPort: {{ .Values.services.redis.port }}
+  selector:
+    app: optikube-redis

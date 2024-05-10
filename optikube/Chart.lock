@@ -1,0 +1,9 @@
+dependencies:
+- name: cost-analyzer
+  repository: https://kubecost.github.io/cost-analyzer/
+  version: 2.2.2
+- name: keda
+  repository: https://kedacore.github.io/charts
+  version: 2.14.2
+digest: sha256:767616fab3de8aabad196fec8e8b9f45aa5673061fdbff7ee8be60acfa771d3f
+generated: "2024-05-10T13:16:28.358821-06:00"

@@ -1,0 +1,34 @@
+# Optikube Role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: optikube-role
+rules:
+  {{- range $rule := .Values.rbac.rules }}
+  - apiGroups:
+      {{- range $apiGroup := $rule.apiGroups }}
+      - "{{ $apiGroup }}"
+      {{- end }}
+    resources:
+      {{- range $resource := $rule.resources }}
+      - "{{ $resource }}"
+      {{- end }}
+    verbs:
+      {{- range $verb := $rule.verbs }}
+      - "{{ $verb }}"
+      {{- end }}
+  {{- end }}
+---
+# Optikube Rolebinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: optikube-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: {{ .Values.serviceAccount.name }}
+  namespace: {{ .Values.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: optikube-role

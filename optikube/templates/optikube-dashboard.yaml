@@ -1,0 +1,46 @@
+# Optikube Dashboard Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: optikube-dashboard
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: optikube-dashboard
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: optikube-dashboard
+  template:
+    metadata:
+      labels:
+        app: optikube-dashboard
+    spec:
+      containers:
+      - name: optikube-dashboard
+        image: {{ .Values.images.dashboard.repository }}:{{ .Values.images.dashboard.tag}}
+        imagePullPolicy: {{ .Values.images.dashboard.pullPolicy }}
+        ports:
+        - containerPort: 3000
+        resources: 
+          requests:
+            cpu: {{ .Values.resources.dashboard.requests.cpu }}
+            memory: {{ .Values.resources.dashboard.requests.memory }}
+          limits:
+            cpu: {{ .Values.resources.dashboard.limits.cpu }}
+            memory: {{ .Values.resources.dashboard.limits.memory }}
+---
+# Optikube Dashboard Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: optikube-dashboard-svc
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.services.dashboard.type }}
+  ports:
+  - port: {{ .Values.services.dashboard.port }}
+    targetPort: {{ .Values.services.dashboard.port}}
+    protocol: TCP
+  selector:
+    app: optikube-dashboard

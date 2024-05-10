@@ -1,0 +1,98 @@
+# Default values for optikube.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# General Settings
+replicaCount: 1
+namespace: optikube
+
+# Image configurations
+images:
+  dashboard:
+    repository: optikube/optikube-dashboard
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  operator:
+    repository: optikube/optikube-operator
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  redis:
+    repository: redis
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+# Service account settings
+serviceAccount:
+  create: true
+  name: optikube-svc-account
+  annotations: {}
+
+# Deployment-specific settings
+resources:
+  dashboard:
+    requests:
+      cpu: "150m"
+      memory: "150Mi"
+    limits:
+      cpu: "250m"
+      memory: "250Mi"
+  operator:
+    requests:
+      cpu: "150m"
+      memory: "150Mi"
+    limits:
+      cpu: "250m"
+      memory: "250Mi"
+  redis:
+    requests:
+      memory: "50Mi"
+      cpu: "100m"
+
+# Service settings
+# Do not change the preset ports as optikube and it's services are configured to work on these ports only.
+services:
+  dashboard:
+    type: ClusterIP
+    port: 3000
+  operator:
+    type: LoadBalancer
+    port: 8080
+  redis:
+    type: ClusterIP
+    port: 6379
+
+# RBAC settings
+rbac:
+  create: true
+  rules:
+    - apiGroups: ["", "apps", "autoscaling", "keda.sh"]
+      resources: ["*"]
+      verbs: ["*"]
+
+# Probes
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelay: 30
+  timeout: 10
+  period: 10
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 8080
+  initialDelay: 30
+  timeout: 10      
+  period: 10
+
+# Ingress settings
+ingress:
+  enabled: false
+  annotations: {}
+
+# Additional settings like autoscaling, nodeSelectors, tolerations, and affinity
+autoscaling:
+  enabled: false
+nodeSelector: {}
+tolerations: []
+affinity: {}

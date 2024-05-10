@@ -1,0 +1,66 @@
+# Optikube Operator Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: optikube-operator
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: optikube-operator
+  template:
+    metadata:
+      labels:
+        app: optikube-operator
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      containers:
+        - name: optikube-operator
+          image: {{ .Values.images.operator.repository}}:{{ .Values.images.operator.tag }}
+          imagePullPolicy: {{ .Values.images.operator.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.services.operator.port }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.httpGet.path }}
+              port: {{ .Values.livenessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelay }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeout }}
+            periodSeconds: {{ .Values.livenessProbe.period }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.httpGet.path }}
+              port: {{ .Values.readinessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelay }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeout }}      
+            periodSeconds: {{ .Values.readinessProbe.period }}
+          env:
+            - name: SERVER_PORT
+              value: "{{ .Values.services.operator.port }}"
+            - name: REDIS_HOST
+              value: optikube-redis
+            - name: REDIS_PORT
+              value: "6379"
+          resources: 
+            requests:
+              cpu: {{ .Values.resources.operator.requests.cpu }}
+              memory: {{ .Values.resources.operator.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.operator.limits.cpu }}
+              memory: {{ .Values.resources.operator.limits.memory }}
+---
+# Optikube Operator Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: optikube-operator-svc
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.services.operator.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.services.operator.port }}
+      targetPort: {{ .Values.services.operator.port }}
+  selector:
+    app: optikube-operator
