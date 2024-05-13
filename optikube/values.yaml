@@ -61,6 +61,21 @@ services:
     type: ClusterIP
     port: 6379
 
+# Dependencies
+dependencies:
+  kubecost:
+    enabled: true
+    name: cost-analyzer
+    version: "2.2.2"
+    repository: "https://kubecost.github.io/cost-analyzer/"
+    namespace: kubecost
+  keda:
+    enabled: true
+    name: keda
+    version: "2.14.2"
+    repository: "https://kedacore.github.io/charts"
+    namespace: keda
+
 # RBAC settings
 rbac:
   create: true

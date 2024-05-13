@@ -1,5 +1,0 @@
-# Namespace for Keda Dependency chart
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: keda
