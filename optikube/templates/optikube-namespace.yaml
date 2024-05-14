@@ -1,5 +1,0 @@
-# Optikube Namespace for both Operator and Dashboard
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ .Values.namespace }}

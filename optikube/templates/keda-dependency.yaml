@@ -1,9 +1,0 @@
-# Namespace for Keda Dependency chart
-{{- if .Values.dependencies.keda.enabled }}
-{{- include "optikube.keda.namespace" . | indent 4 }}
-{{- include "optikube.keda" . | indent 4 }}
-{{- end }}
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: keda

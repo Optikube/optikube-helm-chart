@@ -11,11 +11,11 @@ images:
   dashboard:
     repository: optikube/optikube-dashboard
     tag: "latest"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   operator:
     repository: optikube/optikube-operator
     tag: "latest"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   redis:
     repository: redis
     tag: "latest"

@@ -1,5 +1,0 @@
-# Namespace for Kubecost Dependency chart
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kubecost
