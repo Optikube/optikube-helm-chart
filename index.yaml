@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  optikube:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-05-15T14:03:41.036325-06:00"
+    dependencies:
+    - name: cost-analyzer
+      repository: https://kubecost.github.io/cost-analyzer/
+      version: 2.2.2
+    - name: keda
+      repository: https://kedacore.github.io/charts
+      version: 2.14.2
+    description: A Helm chart for Kubernetes
+    digest: a70ab80dfb9dca9ca139fe4292dc046c355adf43b1b2cee92169c8db0aa9fe47
+    name: optikube
+    type: application
+    urls:
+    - https://github.com/Optikube/optikube-helm-chart/optikube-1.0.1.tgz
+    version: 1.0.1
+generated: "2024-05-15T14:03:41.025119-06:00"
