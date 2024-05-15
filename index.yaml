@@ -3,7 +3,7 @@ entries:
   optikube:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-05-15T14:03:41.036325-06:00"
+    created: "2024-05-15T14:19:58.10585-06:00"
     dependencies:
     - name: cost-analyzer
       repository: https://kubecost.github.io/cost-analyzer/
@@ -16,6 +16,6 @@ entries:
     name: optikube
     type: application
     urls:
-    - https://github.com/Optikube/optikube-helm-chart/optikube-1.0.1.tgz
+    - https://optikube.github.io/optikube-helm-chart/optikube-1.0.1.tgz
     version: 1.0.1
-generated: "2024-05-15T14:03:41.025119-06:00"
+generated: "2024-05-15T14:19:58.095667-06:00"
