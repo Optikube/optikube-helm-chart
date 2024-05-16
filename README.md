@@ -1,5 +1,5 @@
 # OptiKube Helm Chart
-This is the official Helm chart for OptiKube, an open-source tool to monitor and manage Kubernetes spend. Please see the [organization page](https://github.com/Optikube) for more details on what OptiKube can do for you or contact optikube@gmail.com for assistance.
+This is the official Helm chart for OptiKube, an open-source tool to optimize and manage Kubernetes resources. Please see the [organization page](https://github.com/Optikube) for more details on what OptiKube can do for you or contact optikube@gmail.com for assistance.
 
 ## Version Support
 | Chart Version | Kubernetes Min | Kubernetes Max |
