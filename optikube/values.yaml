@@ -31,22 +31,25 @@ serviceAccount:
 resources:
   dashboard:
     requests:
-      cpu: "150m"
-      memory: "150Mi"
+      cpu: "50m"
+      memory: "64Mi"
     limits:
-      cpu: "250m"
-      memory: "250Mi"
+      cpu: "100m"
+      memory: "128Mi"
   operator:
     requests:
-      cpu: "150m"
-      memory: "150Mi"
+      cpu: "50m"
+      memory: "64Mi"
     limits:
-      cpu: "250m"
-      memory: "250Mi"
+      cpu: "100m"
+      memory: "128Mi"
   redis:
     requests:
-      memory: "50Mi"
-      cpu: "100m"
+      cpu: "25m"
+      memory: "32Mi"
+    limits:
+      cpu: "50m"
+      memory: "64Mi"
 
 # Service settings
 # Do not change the preset ports as optikube and it's services are configured to work on these ports only.
@@ -63,19 +66,13 @@ services:
 
 # Dependencies
 dependencies:
-  kubecost:
-    enabled: true
-    name: cost-analyzer
+  - name: cost-analyzer
+    alias: kubecost
     version: "2.2.2"
     repository: "https://kubecost.github.io/cost-analyzer/"
-    namespace: kubecost
-  keda:
-    enabled: true
-    name: keda
+  - name: keda
     version: "2.14.2"
     repository: "https://kedacore.github.io/charts"
-    namespace: keda
-
 # RBAC settings
 rbac:
   create: true
@@ -111,3 +108,41 @@ autoscaling:
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+kubecost:
+  global:
+    grafana:
+      enabled: false
+    prometheus:
+      enabled: false
+    thanos:
+      enabled: false
+    kubecostMetrics:
+      enabled: false
+
+  kubecostFrontend:
+    enabled: false
+
+  networkCosts:
+    enabled: false
+
+  serviceMonitor:
+    enabled: false
+
+  persistentVolume:
+    enabled: false
+
+  ingress:
+    enabled: false
+
+  cloudCost:
+    enabled: false
+
+  kubecostModel:
+    resources:
+      requests:
+        cpu: "50m"
+        memory: "64Mi"
+      limits:
+        cpu: "100m"
+        memory: "128Mi"
