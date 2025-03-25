@@ -116,13 +116,14 @@ kubecost:
   serviceMonitor:
     enabled: false
 
-  persistentVolume:
-    enabled: false
-
   cloudCost:
     enabled: false
 
+  persistentVolume:
+    enabled: false
+
   kubecostModel:
+    enabled: true  # must stay true for it to run, but disable its PVC
     persistentVolume:
       enabled: false
     resources:
@@ -134,7 +135,8 @@ kubecost:
         memory: "128Mi"
 
   prometheus:
+    enabled: false
     server:
+      enabled: false
       persistentVolume:
         enabled: false
-    
