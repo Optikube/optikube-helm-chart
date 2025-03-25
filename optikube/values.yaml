@@ -1,16 +1,10 @@
-# Default values for optikube.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-# General Settings
 replicaCount: 1
 namespace: optikube
 
-# Image configurations
 images:
   dashboard:
     repository: optikube/optikube-dashboard
-    tag: "latest"
+    tag: "demo"
     pullPolicy: Always
   operator:
     repository: optikube/optikube-operator
@@ -21,13 +15,11 @@ images:
     tag: "latest"
     pullPolicy: IfNotPresent
 
-# Service account settings
 serviceAccount:
   create: true
   name: optikube-svc-account
   annotations: {}
 
-# Deployment-specific settings
 resources:
   dashboard:
     requests:
@@ -51,8 +43,6 @@ resources:
       cpu: "50m"
       memory: "64Mi"
 
-# Service settings
-# Do not change the preset ports as optikube and it's services are configured to work on these ports only.
 services:
   dashboard:
     type: ClusterIP
@@ -64,7 +54,6 @@ services:
     type: ClusterIP
     port: 6379
 
-# Dependencies
 dependencies:
   - name: cost-analyzer
     alias: kubecost
@@ -73,7 +62,7 @@ dependencies:
   - name: keda
     version: "2.14.2"
     repository: "https://kedacore.github.io/charts"
-# RBAC settings
+
 rbac:
   create: true
   rules:
@@ -81,7 +70,6 @@ rbac:
       resources: ["*"]
       verbs: ["*"]
 
-# Probes
 livenessProbe:
   httpGet:
     path: /health
@@ -89,20 +77,19 @@ livenessProbe:
   initialDelay: 30
   timeout: 10
   period: 10
+
 readinessProbe:
   httpGet:
     path: /ready
     port: 8080
   initialDelay: 30
-  timeout: 10      
+  timeout: 10
   period: 10
 
-# Ingress settings
 ingress:
   enabled: false
   annotations: {}
 
-# Additional settings like autoscaling, nodeSelectors, tolerations, and affinity
 autoscaling:
   enabled: false
 nodeSelector: {}
@@ -129,16 +116,16 @@ kubecost:
   serviceMonitor:
     enabled: false
 
-  persistentVolume:
-    enabled: false
-
-  ingress:
-    enabled: false
-
   cloudCost:
     enabled: false
 
+  persistentVolume:
+    enabled: false
+
   kubecostModel:
+    enabled: true  # must stay true for it to run, but disable its PVC
+    persistentVolume:
+      enabled: false
     resources:
       requests:
         cpu: "50m"
@@ -146,3 +133,10 @@ kubecost:
       limits:
         cpu: "100m"
         memory: "128Mi"
+
+  prometheus:
+    enabled: false
+    server:
+      enabled: false
+      persistentVolume:
+        enabled: false
